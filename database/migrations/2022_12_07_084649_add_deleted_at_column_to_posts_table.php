@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIsAdminColumn extends Migration
+class AddDeletedAtColumnToPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class AddIsAdminColumn extends Migration
     {
         Schema::table('posts', function (Blueprint $table) {
             //
-            $table->integer('is_admin')->unsigned();
+            $table->softDeletes();
         });
     }
 
@@ -28,7 +28,7 @@ class AddIsAdminColumn extends Migration
     {
         Schema::table('posts', function (Blueprint $table) {
             //
-            $table->dropColumn('is_admin')->default(0);
+            $table->dropColumn('deleted_at');
         });
     }
 }
