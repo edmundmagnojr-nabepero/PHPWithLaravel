@@ -2,6 +2,9 @@
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Country;
+use App\Models\Photo;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
 
@@ -140,6 +143,71 @@ Route::get('/userposts', function(){
         echo $post->title . "<br>";
     }
 });
+
+Route::get('/user/{id}/role', function($id){
+    $user = User::find($id)->roles()->orderBy('id', 'desc')->get();
+
+    return $user;
+    foreach($user->roles as $role){
+        return $role->name;
+    }
+});
+
+Route::get('user/pivot', function(){
+    $user = User::find(1);
+
+    foreach($user->roles as $role){
+        return $role->pivot->created_at;
+    }
+});
+
+Route::get('user/country', function(){
+    $country = Country::find(4);
+    foreach($country->posts as $post){
+        return $post->title;
+    }
+});
+
+/*
+|--------------------------------------------------------------------------
+| Polymorphic Relations
+|--------------------------------------------------------------------------
+*/
+
+Route::get('user/photos', function(){
+    $user = User::find(1);
+    foreach($user->photos as $photo){
+        return $photo->path;
+    }
+});
+
+Route::get('post/{id}/photos', function($id){
+    $post = Post::find($id);
+    foreach($post->photos as $photo){
+        echo $photo->path. "</br>";
+    }
+});
+
+Route::get('photo/{id}/post', function($id){
+    $photo = Photo::findOrFail($id);
+    return $photo->imageable;
+});
+
+Route::get('post/tag', function(){
+    $post = Post::find(1);
+    //return $post->tags;
+    foreach($post->tags as $tag){
+        echo $tag->name;
+    }
+});
+
+Route::get('tag/post', function(){
+    $tag = Tag::find(2);
+    foreach($tag->posts as $post){
+        echo $post->title;
+    }
+});
+
 
 /*
 |--------------------------------------------------------------------------
