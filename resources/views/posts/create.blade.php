@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Edit Post</h1>
-<form method="post" action="/posts">
+<h1>Create Post</h1>
+<!-- <form method="post" action="/posts"> -->
+{!! Form::open() !!}
     <input type="text" name="title" placeholder="Enter Title">
     {{csrf_field()}}
     <input type="submit" name="submit">
-</form>
+{{ Form::close() }}
 @stop
