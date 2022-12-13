@@ -3,11 +3,16 @@
 @section('content')
 <h1>Create Post</h1>
 <!-- <form method="post" action="/posts"> -->
-{!! Form::open(['method'=>'POST', 'route'=>'posts.store']) !!}
+{!! Form::open(['method'=>'POST', 'route'=>'posts.store', 'files'=>true]) !!}
     {{csrf_field()}}
+
     <div class='form-group'>
         {!! Form::label('title', 'Title:') !!}
         {!! Form::text('title', null, ['class'=>'form-control']) !!}
+    </div>
+
+    <div class='form-group'>
+        {!! Form::file('file', ['class'=>'form-control']) !!}
     </div>
     <!-- <input type="text" name="title" placeholder="Enter Title"> -->
     <div class='form-group'>

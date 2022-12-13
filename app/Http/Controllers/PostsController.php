@@ -40,22 +40,38 @@ class PostsController extends Controller
      */
     public function store(CreatePostRequest $request)
     {
-        //
-        //return $request->title;
-        // $this->validate($request,[
-        //     'title'=>'required|max:100'
-        // ]);
-        Post::create($request->all());
+        
+        $input = $request->all();
+        if($file = $request->file('file')){
+            $name = $file->getClientOriginalName();
+            $file->move('images', $name);
+            $input['path'] = $name;
 
-        return redirect('/posts');
+        }
+        Post::create($input);
 
-        // $input = $request->all();
-        // $input['title'] = $request->title;
+        // $file = $request->file('file');
+        // echo '<br>';
+        // echo $file->getClientOriginalName();
+        // echo '<br>';
+        // echo $file->getClientSize();
+        
+        // //
+        // //return $request->title;
+        // // $this->validate($request,[
+        // //     'title'=>'required|max:100'
+        // // ]);
         // Post::create($request->all());
 
-        // $post = new Post;
-        // $post->title = $request->title;
-        // $post->save();
+        // return redirect('/posts');
+
+        // // $input = $request->all();
+        // // $input['title'] = $request->title;
+        // // Post::create($request->all());
+
+        // // $post = new Post;
+        // // $post->title = $request->title;
+        // // $post->save();
     }
 
     /**
