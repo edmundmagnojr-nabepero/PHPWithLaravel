@@ -7,6 +7,7 @@ use App\Models\Photo;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
+use Carbon\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -263,4 +264,32 @@ use App\Http\Controllers\PostsController;
 |--------------------------------------------------------------------------
 |*/
 
-Route::resource('/posts', PostsController::class);
+
+
+Route::group(['middleware'=>'web'], function(){
+    Route::resource('/posts', PostsController::class);
+    Route::get('/dates', function(){
+        $date = new DateTime('+1 week');
+
+        echo $date->format('m-d-y');
+
+        echo '<br>';
+
+        echo Carbon::now()->addDays(10)->diffForHumans();
+
+        echo '<br>';
+
+        echo Carbon::now()->subMonths(5)->diffForHumans();
+    });
+
+    Route::get('/getname', function(){
+        $user = User::find(1);
+        echo $user->name;
+    });
+
+    Route::get('/setname', function(){
+        $user = User::find(1);
+        $user->name = "edmund magno";
+        $user->save();
+    });
+});
